@@ -36,77 +36,82 @@ public class MainActivity extends AppCompatActivity {
 
         refreshListView = (RefreshListView) findViewById(R.id.refresh);
 
-adapter = new ResultAdapter(this,results);
-
+        adapter = new ResultAdapter(this,results);
 
         refreshListView.setAdapter(adapter);
         refreshListView.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
             @Override
             public boolean onRefreshing() {
-
-//               final String url = "http://v.juhe.cn/tour_v2.0/jingqushuju.php?"
-//                        +"&area=杭州"
-//                        +"&key=91b1e716f91c1aa0aadec812b8556109";
-
-
-              final String  url = "http://japi.juhe.cn/love/list.from?key=c4a484530cca9ad4643d5d7e50fd8bcf&count=5";
-                //"&area=%E8%8B%8F%E5%B7%9E
-                // &name=%E8%8B%8F%E5%B7%9E%E5%9B%AD%E6%9E%97
-                // &key=你申请的key";
-                new Thread(){
-                    @Override
-                    public void run() {
-                        super.run();
-                        try {
-                            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-
-                            connection.connect();
-
-
-
-                            StringBuilder builder = new StringBuilder();
-                            InputStream inputStream = connection.getInputStream();
-                            BufferedReader bis = new BufferedReader(new InputStreamReader(inputStream));
-                           String line = null;
-                            while ((line =bis.readLine())!=null){
-                                builder.append(line);
-                            }
-                            String msg = builder.toString();
-                            if (!TextUtils.isEmpty(msg)){
-                                JSONObject root = new JSONObject(msg);
-                                String reason = root.getString("reason");
-                                if (reason.equalsIgnoreCase("Success")){
-                                    refresh = true;
-                                    JSONArray array = root.getJSONObject("result").getJSONArray("data");
-                                    for (int i = 0; i < array.length(); i++) {
-                                        LoveResult love = new LoveResult();
-                                        JSONObject object = array.getJSONObject(i);
-                                        love.setBody(object.getString("body"));
-                                        love.setTitle(object.getString("title"));
-                                        love.setId(object.getInt("id"));
-                                        love.setValid(object.getInt("valid"));
-                                        results.add(love);
-                                    }
-                                    Log.d("refresh", "run: "+results.size());
-                                    handler.sendEmptyMessage(0);
-                                }else {
-
-                                }
-                            }
-                            Log.d("refresh", "run: "+msg);
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-
-
-                return refresh;
+                return true;
             }
         });
+//        refreshListView.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
+//            @Override
+//            public boolean onRefreshing() {
+//
+////               final String url = "http://v.juhe.cn/tour_v2.0/jingqushuju.php?"
+////                        +"&area=杭州"
+////                        +"&key=91b1e716f91c1aa0aadec812b8556109";
+//
+//
+//              final String  url = "http://japi.juhe.cn/love/list.from?key=c4a484530cca9ad4643d5d7e50fd8bcf&count=5";
+//                //"&area=%E8%8B%8F%E5%B7%9E
+//                // &name=%E8%8B%8F%E5%B7%9E%E5%9B%AD%E6%9E%97
+//                // &key=你申请的key";
+//                new Thread(){
+//                    @Override
+//                    public void run() {
+//                        super.run();
+//                        try {
+//                            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+//
+//                            connection.connect();
+//
+//
+//
+//                            StringBuilder builder = new StringBuilder();
+//                            InputStream inputStream = connection.getInputStream();
+//                            BufferedReader bis = new BufferedReader(new InputStreamReader(inputStream));
+//                           String line = null;
+//                            while ((line =bis.readLine())!=null){
+//                                builder.append(line);
+//                            }
+//                            String msg = builder.toString();
+//                            if (!TextUtils.isEmpty(msg)){
+//                                JSONObject root = new JSONObject(msg);
+//                                String reason = root.getString("reason");
+//                                if (reason.equalsIgnoreCase("Success")){
+//                                    refresh = true;
+//                                    JSONArray array = root.getJSONObject("result").getJSONArray("data");
+//                                    for (int i = 0; i < array.length(); i++) {
+//                                        LoveResult love = new LoveResult();
+//                                        JSONObject object = array.getJSONObject(i);
+//                                        love.setBody(object.getString("body"));
+//                                        love.setTitle(object.getString("title"));
+//                                        love.setId(object.getInt("id"));
+//                                        love.setValid(object.getInt("valid"));
+//                                        results.add(love);
+//                                    }
+//                                    Log.d("refresh", "run: "+results.size());
+//                                    handler.sendEmptyMessage(0);
+//                                }else {
+//
+//                                }
+//                            }
+//                            Log.d("refresh", "run: "+msg);
+//
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }.start();
+//
+//
+//                return refresh;
+//            }
+//        });
     }
 
     private Handler handler = new Handler(){
