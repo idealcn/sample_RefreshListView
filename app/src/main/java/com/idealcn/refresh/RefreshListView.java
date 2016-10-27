@@ -126,7 +126,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         if (params==null)
             params = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    300
+                    200
 //                    ViewGroup.LayoutParams.MATCH_PARENT
             );
 
@@ -139,7 +139,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         }else {
             height = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         }
-
+        Log.d(TAG, "measureHeight: "+height);
         view.measure(width,height);
 
 
@@ -182,7 +182,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
             case MotionEvent.ACTION_MOVE: {
                 int diffY = (int) (ev.getY() - startY);
                 if (diffY <= 0) {
-
+                    state = STATE_NORMAL;
                 } else {
                     setHeaderPadding(-(headerHeight-diffY));
                     state = STATE_PULL;
@@ -216,6 +216,9 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
                             }
                         },1500);
                     }
+                }else {
+                    state = STATE_NORMAL;
+                    setHeaderPadding(-headerHeight);
                 }
             }
                 break;

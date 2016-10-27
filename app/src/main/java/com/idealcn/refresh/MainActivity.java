@@ -1,5 +1,6 @@
 package com.idealcn.refresh;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -7,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         refreshListView = (RefreshListView) findViewById(R.id.refresh);
 
         adapter = new ResultAdapter(this,results);
+
+        TextView textView = new TextView(this);
+        textView.setText("header view");
+        textView.setTextSize(35);
+        textView.setTextColor(Color.RED);
+        textView.setHeight(160);
+        textView.setGravity(Gravity.CENTER);
+        refreshListView.addHeaderView(textView);
 
         refreshListView.setAdapter(adapter);
         refreshListView.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
