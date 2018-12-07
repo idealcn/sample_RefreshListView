@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setHeight(160);
         textView.setGravity(Gravity.CENTER);
         refreshListView.addHeaderView(textView);
+        refreshListView.addFooterView(textView);
 
         refreshListView.setAdapter(adapter);
         refreshListView.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
